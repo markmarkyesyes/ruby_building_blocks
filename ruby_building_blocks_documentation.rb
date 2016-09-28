@@ -181,7 +181,7 @@ on the one pertaining to local variables.
 			a_string.class # => String
 			a_number.class # => Fixnum
 			an_array.class # => Array
-			a_hash.class 	 # => Hash
+			a_hash.class   # => Hash
 			#We use the :class method to determine which class (native or local) that an 
 			#object belongs to.
 
@@ -205,7 +205,8 @@ on the one pertaining to local variables.
 			#Here we use method chaining to call another method with the return of the previous
 			#method all on one line.
 
-=begin uncomment to run
+=begin #uncomment to run
+
 #PROJECT 1: PUTTING THE FORM IN FORMATTER
 
 # What will we build: a small program that will read a users input and correct their 
@@ -284,7 +285,6 @@ to either the end, elsif, or else.
  The white space and indentation is not required by ruby, but is a convention followed by 
 rubyists.
 =end
-
 =begin
 ------------
 2.3 Else
@@ -293,7 +293,6 @@ rubyists.
 and is not defined, but rather executes its code block if none of the other conditions in the
 statement are met. 
 =end
-
 =begin
 ------------
 2.4 Elsif
@@ -302,7 +301,6 @@ statement are met.
 your if statement. These conditions will evaluate to either true or false, executing the
 code block if true and skipping the code block if false. 
 =end
-
 =begin
 -------------
 2.5 Unless
@@ -320,3 +318,295 @@ code block if true and skipping the code block if false.
 -----------------
 2.6 Equal or not?
 -----------------
+ When comparing values for equality or inequality, we use the == and != comparator respectively.
+=end 	#Example (==) ((stupid example))
+			user_names = ['john', 'cookies23', 'licoricexx']
+			user_names.map do |user|
+				if user.length == 7
+					:golden_ticket
+				else user_names.delete(user)
+				end
+			end
+
+		#Example
+			user_names.each do |user|
+				if user != 'sugar_rainbows23'
+					:members_landing
+				else puts 'IVE FOUND YOU SUGAR_RAINBOWS23!'
+				end
+			end
+
+=begin
+--------------------------------
+2.7 Less Than or Greater Than
+--------------------------------
+Continuing on the topic of comparators, we can use the following as well:
+=end 	#Example (< less than)
+			def register_form
+				p "pick a name!"
+				user_name = gets.chomp
+				p "pick a secret code!"
+				password = gets.chomp
+				if user_name.length || password.length < 5
+					register_form
+				else verify_age(user_name, password)
+				end
+			end
+
+=begin	#(uncomment to run)
+		#Example (<= less than or equal to)
+		
+			user_age = {}
+			user_names.each do |user|
+				p "please enter your age, #{user}"
+				age = gets.chomp
+				if age.to_i <= 20
+					puts "no dice, bud"
+				else user_age[user] = age.to_i
+				end
+			end
+
+		#Example (> greater than)
+			user_age.each do |user, age|
+				if age > 90
+					puts "#{user}, arent you a bit old for this?"
+				end
+			end
+		
+		#Example (>= greater than or equal to)
+			if user_names.length >=101
+				puts "no more registrations at this time"
+			else p "Welcome to CandyLand!"
+			end
+=end 
+
+=begin 
+-------------
+2.8 Practice
+-------------
+-------------
+2.9 And
+-------------
+ Another form of operator you can use is a logical or boolean operator.
+ 	&& and - Results in true if values on both sides of the operator evaluate true in the 
+ 			 comparison.		
+ 	|| or - Results in true if values on either side of the operator evaluate true in the 
+ 			comparison.
+ 	! not - Results in true when the value is not equal to the comparison value.
+=end 	#Example ( && )
+			def different_registration_form
+				p "pick a name!"
+				user_name = gets.chomp
+				p "pick a secret code!"
+				password = gets.chomp
+				if user_name.length && password.length > 5
+					puts "welcome!"
+				else different_registration_form
+				end
+			end
+
+		#Example 2 (&&)
+			large_array = []
+			(1..100).each do |i|
+				if i > 22 && i < 84 
+					large_array << "REDACTED"
+				else large_array << i
+				end
+			end
+=begin
+-----------
+2.10 Or
+-----------
+=end 	
+=begin 	#(uncomment to run)
+		#Example ( || )
+			(1..100).map do |i|
+				if i > 22 || i == 2
+					i= "#{i} REDACTED"
+				end
+				p i 
+			end
+
+		#Example 2 
+			def lottery_checker
+				puts "pick your number (1 to 1000)"
+				puts "odds are 1 in 500"
+				pick = gets.chomp.to_i
+				if pick == (rand(1000) || rand(1000))
+					p 'winner winner!'
+				else p 'nope. what did you expect'
+				end
+			end
+			lottery_checker
+=end
+=begin
+------------
+2.11 Not
+------------
+=end
+		
+		#Example (!)
+			!true == false # => true
+
+=begin  #(uncomment to run)
+		#Example 2
+			large_array.each do |i|
+				if i.class != Fixnum
+					p 'not a number'
+				elsif i % 2 != 0
+					p 'odd'
+				else p 'even'
+				end
+			end
+=end
+=begin
+---------------------------------
+2.12 Combining Boolean Operators
+---------------------------------
+You can combine operators in expressions using parentheses to dictate the order of operations
+=end
+=begin 	#(uncomment to run)
+		#Example
+			user_age = [22,55,11,66,33,2,55]
+			user_age.each do |age|
+				if (age <= 20) || (age > 80)
+					puts "Sorry, you do not meet the age requirements"
+				else different_registration_form
+				end
+			end
+=end 
+		#EG 
+			boolean_1 = (3 < 4 || false) && (false || true)# => true
+
+			boolean_2 = !true && (!true || 100 != 5**2)# => false
+
+			boolean_3 = true || !(true || false)# => true
+
+=begin 
+---------------------
+2.14 If, Else, Elsif
+---------------------
+=end 
+		#Example 
+			users = ['john', 'candyman', 'wilbur_22', 'steven', 'kayakbuddy_68', 'kentuckyderbyenthusiast999999']
+			users_with_long_names = {}
+			users_with_short_names = {}
+
+
+			users.each do |user|
+				if (user.length > 5) && (user.length < 15)
+					users_with_long_names[user] = user.length
+				elsif user.length < 5
+					users_with_short_names[user] = user.length
+				else users.delete(user)
+				end
+			end
+=begin
+---------------
+2.15 Unless
+---------------	
+
+		#Example (uncomment to run (does not terminate recursive method call))
+			different_registration_form unless (users.length > 6)
+
+=end 
+=begin
+---------------------
+2.16 Dare to compare
+---------------------
+		#EG
+			# test_1 should be false
+				test_1 = 5 < 4
+
+			# test_2 = should be false
+				test_2 = 10 != 10
+
+			# test_3 = should be true
+				test_3 = 3 < (20/5)
+=end
+=begin 
+--------------------------
+2.17 Billions of Booleans
+--------------------------
+The code in the editor indicates what value (true or false) we want each variable to have, 
+and your job is to add an expression that evaluates to the correct value using boolean 
+operators (&&, ||, or !).
+=end
+		#EG
+			# test_1 should be true
+				test_1 = (1..100).to_a.length > (2 || 3)
+
+			# test_2 = should be true
+				test_2 = (5 && 6) > 2
+
+			# test_3 = should be false
+				test_3 = !6 == 7
+
+=begin #uncomment to run
+#PROJECT 2: THITH MEANTH WAR!~
+
+#What You'll Be Building
+#Now that we can direct our program using if / else statements, we can produce different 
+#results based on different user input.
+
+#In this project, we'll combine control flow with a few new Ruby string methods to Daffy 
+#Duckify a user's string, replacing each "s" with "th".
+
+#STEP 1: GETTING USER INPUT
+ #First, we should print a statement to prompt the user for input, then set that input to 
+ #a variable using gets.chomp.
+
+ #Instructions
+ #Use print to ask the user for input.
+ #Declare a variable called user_input and set it equal to the user's input using gets.chomp.
+		print "please input a string"
+		user_input = gets.chomp
+
+#STEP 2: DOWNCASE!
+ #We want to make sure we capture both "S" and "s" in the user's input. We could write 
+ #separate if / else statements to handle this, but we can also use .downcase! to convert 
+ #the user's input to all lower case. That way, we only have to search for "s". 
+
+ #Instructions
+ #Call the .downcase! method on user_input. 
+ #Make sure to include the ! so that the user's string is modified in-place; otherwise, 
+ #Ruby will create a copy of user_input and modify that instead.
+ 		user_input.downcase!
+
+#STEP 3: SETTING UP THE IF BRANCH PT 1
+ #We want to check user_input for the substring "s".
+
+ #Write an if statement in the editor. It should check to see if user_input includes "s".
+ #For now, print a string of your choice to the console if it finds "s".
+ 		if user_input.include? "s"
+ 			user_input.gsub!(/s/, "th")
+ 		else p 'There are no "s"s in the string'
+ 		end
+
+#STEP 4: SETTING UP THE IF BRANCH PT 2
+ #When we find "s", we want Ruby to replace every instance of "s" it finds with "th". 
+ #We can do this with the .gsub! method, which stands for global substitution.
+ 		#Example
+ 			users.each do |user|
+ 				if user.include? "s"
+ 					user.gsub!(/s/, "th")
+ 				end
+ 			end
+
+ #Remove the print statement you added to your if statement and replace it with a 
+ #call to .gsub! on user_input. Have it replace /s/ with "th".
+ 		#Changes made in step 3.
+
+#STEP 5: SETTING UP THE 'ELSE' BRANCH
+ #Add an else statement that displays a string to the user to let them know if 
+ #there are no "s"s in their string
+ 		#Changes made in step 3.
+
+#STEP 6: RETURNING THE FINAL STRING
+ #Add a puts statement that uses string interpolation to show the user their 
+ #transformed string.
+ 		puts "#{user_input}"
+#END PROJECT
+=end
+
+
