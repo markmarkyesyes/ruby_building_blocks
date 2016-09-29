@@ -569,6 +569,8 @@ operators (&&, ||, or !).
 
  #Instructions
  #Call the .downcase! method on user_input. 
+ #(Just a reminder that we use the ! to modify elements in place, rather than using method 
+ #return)
  #Make sure to include the ! so that the user's string is modified in-place; otherwise, 
  #Ruby will create a copy of user_input and modify that instead.
  		user_input.downcase!
@@ -608,5 +610,197 @@ operators (&&, ||, or !).
  		puts "#{user_input}"
 #END PROJECT
 =end
+
+# 3. Loops & Iterators
+
+=begin
+------------------
+3.1 The While Loop
+------------------
+The while loop executes a block of code over and over again while the conditional remains 
+true. This is a useful tool to keep something like a form or input field active while accounting 
+for the possibility of user error in input. It could also be used to prompt multiple lines of
+input terminating on a fulfilled condition.
+
+You must provide a way for the condition to evaluate false, or else you will be in an infinite
+loop.
+		#Example
+=end
+=begin
+-----------------------------
+3.2 Danger: Infinite Loops!
+-----------------------------
+When we dont give loops like when and until a way to stop, they will loop forever( or at
+least until our computer tells the program to cut it out). 
+To pevent this from happening, we will either:
+a. use a conditional inside the loop to change the loop condition in a way that the loop terms,
+b. use a conditional inside the loop with a break statement to end the loop immediately, or
+c. use an 'index variable'; a variable set outside the loop that is incremented each iteration 
+	from inside the loop, and when the index variable reaches a certain value, the loop will
+	terminate
+=end
+=begin #(uncomment to run)		
+			#Example (conditional break)
+				user_input = ""
+				while user_input.length < 5
+					p 'type some stuff!!'
+					prompt = gets.chomp
+					user_input += "#{prompt} "  # => affects the variable evaluated in the
+				end 							# => loop condition.
+				p user_input
+
+			#Example (explicit break)
+				water_level = 5
+				while water_level > 2
+					if water_level == 10
+						p "Yo basement flooded"
+						break					# => explicit break
+					end
+					p 'DANGER::WATER RISING::'
+					p "WATER LEVEL: #{water_level}"
+					chance_of_rain = rand(4)
+					if chance_of_rain == 1
+						p "The rain stopped!!!"
+						p "...OK all safe now"
+						break					# => explicit break
+					else water_level += 1
+					end
+				end
+
+			#Example (index variable)
+				index_variable = 0
+				while index_variable < 10
+					puts "#{index_variable}. teeheeheehee"
+					index_variable +=1
+				end
+=end
+=begin
+---------------------
+3.3 The 'Until' Loop
+---------------------
+The until loop is kin to while, rather than breaking when the condition evaluates false, it
+breaks when the condition evaluates true. This can help keep the human expression of your code
+much easier to interpret. Readability and conditional evaluation for loop termination are the
+ONLY differences between until and while.
+=end
+=begin
+-------------------------------
+3.4 More assignment Operators
+-------------------------------
+The most common assignment operator we have used is '=', used to assign values to variables, 
+but there are other assignment operators that perform concatenation, multiplication, and 
+string maths while assigning values. 
+The other assignment operators mentioned here are +=, -=, *=, but all mathematical operators
+can be prepended to the = operator to apply their function in assignment.
+		#Examples
+			c += a | c = c + a
+			c -= a | c = c - a
+			c *= a | c = c * a
+			c /= a | c = c / a
+			c %= a | c = c % a
+			c **= a| c = c**a
+When looking at the last three, it is clear that these will only apply to integer values, as 
+division, modulo, and exponentiation cannot be performed as string math.
+=end
+=begin
+------------------
+3.5 The 'For' Loop
+------------------
+The for loop takes an argument that essentially functions as the enumerator 'each' (in fact
+it calls each for its operation). Its main function is to loop through a block of code a 
+certain number of times, that amount being passed in as an argument (a range or ordered array)
+
+We see each come through plainly when we pass in an unordered array and see the iteration variable
+return the values in the unordered array. 
+Returns the original argument at the end as well (I assume as a sde effect of using each)
+=end
+		#Example (using a range)
+			for v in (1..3)
+				p v
+			end 			# => 1\n2\n3
+
+		#Example (using an ordered array)
+			for v in [1,2,3]
+				p v
+			end 			# => 1\n2\n3
+
+		#Example (unordered array)
+			for v in [3,5,1]
+				p v
+			end 			# => 3\n5\n1
+
+=begin
+----------------------------------
+3.6 Inclusive and Exclusive Ranges
+----------------------------------
+When we use ranges we use ... for an exclusive (excluding the last number) and .. for an 
+inclusive (including the last number)
+
+-------------------
+3.8 The Loop Method
+-------------------
+ Loop is an iterator that runs a block, and is usually controlled with an index variable.
+This is considered an 'External Enumerator' because it uses a value outside the loop to control
+iteration.
+ We can terminate the loop with a conditional break (usually tied to the index variable, 
+though im sure theres more than one way to structure the break conditional).
+ Loop without a block returns an enumerator.
+=end 		
+ 		#Example 
+ 			string = "Lovely weather, eh?"
+ 			mod_string = []
+ 			i = 0
+ 			p string
+ 			loop do 
+ 				if i % 2 == 0 || i == 0
+ 					mod_string << string[i].upcase	
+ 				elsif i % 2 != 0 || i == 1
+ 					mod_string << string[i].downcase
+ 				end
+ 				i += 1
+ 				break if i == (string.length - 1)
+ 			end
+ 			joined_string = mod_string.join("")
+ 			p joined_string
+
+=begin
+-----------
+3.9 Next!
+-----------
+Next is used to skip iterations when a condition is met.
+=end
+		#Example (in loop)
+			user_names = ['jdogg_83', 'susieque', 'therealelvis', 'bobb', 'razerr1911']
+			i = 0
+			loop do 
+				if (user_names[i].length < 5) # => notice we have to add an incrementer in loop
+					i += 1 					  # because it relies on an ind var which would not
+					next 					  # be incremented if just next was used.
+				end
+				puts "Nice name, #{user_names[i]}"
+				i += 1
+				break if i == (user_names.size)
+			end
+
+		#Example (for loop)
+			for v in 1..10
+				next if v % 2 == 0 			# => next can be used inline with the conditonal
+				p v 						# because the loop includes its own loop counter.
+			end
+
+=begin
+---------------------------
+3.10 Saving Multiple Values
+---------------------------
+
+
+
+
+
+
+
+
+
+
 
 
