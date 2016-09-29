@@ -792,15 +792,92 @@ Next is used to skip iterations when a condition is met.
 ---------------------------
 3.10 Saving Multiple Values
 ---------------------------
+Storing multiple values in Ruby is accomplished through the use of Arrays. arrays are 
+stored in brackets and separated by commas. They are ordered by a left to right index starting
+at 0. This is an object class of its own and includes helpful modules such as Enumerable and 
+Math.
 
+--------------------------
+3.11 The Enumerator :each
+--------------------------
+Another way to iterate through Enumerables(collections) is with the :each method. 
+:each is used to run a block of code over (you guessed it) each item of a collection, iterating
+left to right in order. 
+You can assign any variable between pipes at the beginning of the block to access the iterated
+value in the block.
+		#EG 
+		Use the .each method on the odds array to print out double 
+		the value of each item of the array. In other words, 
+		multiply each item by 2.
+=end
+			odds = [1,3,5,7,9]
+			odds.each do |value|
+				p value*2
+			end
 
+=begin
+------------------------
+3.12 the :times Iterator
+------------------------
+:times is an integer method that loops through a provided block using the integer it is 
+called on as a loop counter.
+=end
+		#Example 
+			new_user_arr = []
+			user_count = user_names.size
+			user_count.times do
+				new_user_arr << 'Account Deleted'
+			end
+			p new_user_arr
+			
+=begin #(uncomment to run)
+		#Example 2
+			puts "How old are you?"
+			age = gets.chomp.to_i
+			age.times do 
+				puts "HAPPY BIRTHDAY!!!"
+			end
+=end
+=begin
+--------------------------
+3.14 Looping with 'While'
+--------------------------
 
+Use a while loop to print out the numbers 1 through 50, inclusive. 
+While the example above counts down, you will want to count up.
 
+Use print rather than puts, and don't forget to increment your variable.
+=end
+			i=1
+			while i < 51
+				print i
+				i +=1
+			end
+=begin
+Now rewrite your while loop using until.
 
+You still want to print out the numbers 1 through 50, inclusive.
+=end
+			until i > 50
+				print i
+				i+=1
+			end
 
-
-
-
-
-
+#Now print out the numbers from 1 to 50 inclusive, using a for loop instead of an until loop.
+			for i in 1..50
+				print i
+			end
+#Use the loop iterator to print out the string "Ruby!" 30 times.
+#Make sure to type the string exactly as shown!
+			i = 0
+			loop do 
+				print "Ruby!"
+				i += 1
+				break if i == 30
+			end
+#Use the .times iterator to print "Ruby!" to the console 30 times. 
+#Hit Save & Submit Code to see the majesty of your code and complete this lesson!
+			30.times do
+				print "Ruby!"
+			end
 
