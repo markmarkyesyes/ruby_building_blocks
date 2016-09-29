@@ -880,4 +880,98 @@ You still want to print out the numbers 1 through 50, inclusive.
 			30.times do
 				print "Ruby!"
 			end
+=begin #(uncomment to run)
+#PROJECT: REDACTED!
+#Step 1
+#Use puts to prompt the user for input two times. For the first puts, declare a variable 
+#called text and set it equal to the user's input via gets.chomp. For the second puts, 
+#declare a variable called redact and set it equal to the user's input using gets.chomp.
+
+		puts "Enter text to filter"
+		text = gets.chomp
+		puts "Enter text to redact"
+		redact = gets.chomp
+
+#Step 2 Declare a variable called words and set it equal to the result of calling the 
+#.split method on text. Pass .split a space (" ") to use as a delimiter so that we get 
+#an array made up of the words from text.
+		
+		words = text.split(" ")
+		#passing " " to split tells split to divide words at the spaces.
+
+#Step 3
+#Let's start simple: write an .each loop that goes through words and just prints out 
+#each word it finds.
+
+		words.each do |word|
+			if word == redact
+				print "REDACTED "
+			else print word + " "
+			end
+		end
+
+#Step 4
+#if the current word equals the word to be redacted, then print "REDACTED " 
+#with that extra space. Otherwise (else), print word + " ".
+		#Edit on step 3
+=end
+#END
+
+# 4. Data Structures
+=begin
+--------------------
+4.2 Access by Index
+--------------------
+Arrays can be accesed via index which is assigned starting with 0, left to right. 
+Accessing a value at an index is done with the suntax: my_array[index]. this will point to the
+object.
+
+Arrays are very useful for storing multiple types of data and iterating through them for many
+purpouses. In websites, these will serve as collections of data to be accessed by the user.
+
+-------------------
+4.3 String Arrays
+-------------------
+Arrays can store ANY DATA TYPE in ANY ORDER, but are indexed sequentially.
+=end 
+		#Example 
+			heterogenous_array = [:symbols, "strings", [:arrays, "more arrays"], 
+			{:shit=>"even hashes"}, "and definitely", 02, (3.4+3.3)]
+			heterogenous_array.each do |i|
+				p i 
+			end
+		# => "strings"
+		# => [:arrays, "more arrays"]
+		# => {:shit=>"even hashes"}
+		# => "and definitely"
+		# => 2
+		# => 6.699999999999999
+
+=begin
+--------------------
+4.4 Arrays of Arrays
+--------------------
+When you have an array inside of an array, it is considered a multidimensional array.
+when you access values inside a multidimensional array, each level of nesting starts a new 
+0 based index, and is called by an additional [].
+		#Example 
+=end 		
+			multi_array = [[:things,:and],[:stuff,:and],[:thangs,:n],:stuff]
+			multi_array.each do |i|
+				puts "#{i}\n"
+			end
+
+=begin
+---------------------------
+4.5 Introduction to Hashes
+---------------------------
+
+
+
+
+
+
+
+
+		
 
