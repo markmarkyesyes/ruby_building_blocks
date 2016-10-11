@@ -1,5 +1,8 @@
 =begin
 
+******turn on word wrap and size window to half screen vertical********
+
+
 Programming == Joy:
 A Whistle Stop Tour of Ruby 
 and Object Orientation
@@ -421,6 +424,8 @@ A string that describes a pattern for matching elements in other strings.
 			p new_visitors_apr
 			p recurring_visitors_apr
 
+			#Below is not a refactored or incredibly functional class, it is simply an example to show how array subtraction can function when it is being called inside a method vs being stored as a result in a variable.
+
 			class Analytics
 				@@visitors_feb = []
 				@@visitors_mar = ['sandman99', 'bobtehbilder', 'laughingman', 'nothitler']
@@ -455,11 +460,17 @@ A string that describes a pattern for matching elements in other strings.
 			p '/////////////'
 			p april_visitors.unique_visitors('april')
 			p april_visitors.recurring_visitors('april')
+			#now we add a user that will register as recurring due to his presence in march and now april.
 			april_visitors.new_visitor('april', 'sandman99')
 			p '/////////////'
 			p april_visitors.unique_visitors('april')
-			p april_visitors.recurring_visitors('april') #here we see sandman show up as a recurring vsitor because we are doing the array subtraction over again by calling the method, versus calling the result of the original subtraction within a variable.
+			p april_visitors.recurring_visitors('april')
+			 #here we see sandman show up as a recurring vsitor because we are doing the array subtraction over again by calling the method, versus calling the result of the original subtraction within a variable.
 
+
+#in the spirit of analyzing and checking arrays, we can also use the :empty? method to return true or false if an array is empty
+
+# :include?(Object) will tell us whether an array contains the element passed as an argument and return a true false value.
 
 
 			
