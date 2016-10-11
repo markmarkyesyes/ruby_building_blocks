@@ -473,7 +473,66 @@ A string that describes a pattern for matching elements in other strings.
 # :include?(Object) will tell us whether an array contains the element passed as an argument and return a true false value.
 
 
+#HASHES
+			books = {'03/11/16'=>2500, '03/12/16'=>-300, '03/13/16'=>-400, '03/14/16'=> 3300}
+
+			books.each {|date, transaction| puts "#{transaction} on #{date}"}
+			puts books.keys.inspect
+
+			books.delete('03/12/16') #delete deletes a pair by matching a key
+			puts books
+
+			books['03/15/16'] = 0.35
+			books.delete_if{|date, transaction| transaction > -1 && transaction < 1} #delete_if iterates and deletes pairs that evaluate true with the block
+			p '////'*5
+			puts books
+
 			
+#Flow Control
+#a ternary comparison operator is used to create compact conditional code.
+			books.each do |date, transaction|
+				puts transaction > 1 ? "credit #{transaction} on #{date}" : "debit #{transaction} on #{date}"
+			end
+#This should be used carefully as it is not as readable, unless youre using explicit text like above.
+
+
+
+#Code Blocks
+
+			def each_vowel(&code_block) #using & denotes the use of a Proc (a passed code block)
+				%w{a e i o u}.each { |vowel| code_block.call(vowel) } #Using :call calls the method stored in the proc code_block, and we pass the instance variable to the block.
+			end
+
+			each_vowel { |vowel| puts vowel} #here vowel is the instance variable, which is really just a framework for the code_block proc in the each_vowel method.
+
+			def each_vowel_yield
+				%w{a e i o u}.each { |vowel| yield vowel} #Because we use yield, we do not have to pass a proc. yield looks for a block called on the method and runs the block at that point in the code.
+			end
+
+			each_vowel { |vowel| puts vowel}
+
+#To store blocks in variables, we use a lambda. Just another way to move around a block.
+			print_parameter_to_screen = lambda { |x| puts x}
+			print_parameter_to_screen.call(100) #we call the lambda and it runs like its own little method. It is a block stored in a variable.
+
+#Time class
+=begin
+
+hour 		A number representing the hour in 24-hour format ( 21 for 9 p.m., for example).
+min 		The number of minutes past the hour.
+sec 		This is the number of seconds past the minute.
+usec 		The number of microseconds past the second (there are 1,000,000 microseconds per second).
+day 		The number of the day in the month.
+mday 		Synonym for the day method, considered to be “month” day.
+wday 		The number of the day in terms of the week (Sunday is 0 , Saturday is 6 ).
+yday 		The number of the day in terms of the year.
+month		 The number of the month of the date ( 11 for November, for example).
+year 		The year associated with the date.
+zone 		Returns the name of the time zone associated with the time.
+utc? 		Returns true or false depending on if the time/date is in the UTC/GMT time zone or not.
+gmt? 		Synonym for utc? method
+
+=end
 
 
 
