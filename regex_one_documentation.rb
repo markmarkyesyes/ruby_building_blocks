@@ -1,5 +1,5 @@
 @test_counter = 0
-def matcher(a, b, c=nil, d=nil, e=nil, f=nil, pattern)
+def matcher(a, b, c, d, e, f, pattern)
 	to_match = [a, b, c, d, e, f]
 	puts "Lesson #{@test_counter}"
 	to_match.each do |string|
@@ -32,7 +32,7 @@ a =	'abcdefg'
 b =	'abcde'	
 c =	'abc'
 
-matcher(a,b,c,nil,nil,nil,'abc') #Passes
+matcher(a,b,c,nil,nil,nil,'abc.*') #Passes
 
 =begin
 Lesson 1: The 123s
@@ -67,7 +67,7 @@ b =	'896.'
 c =	"?=+."	
 d =	"abc1" #fail
 
-matcher(a,b,c,d,nil,nil,'...\.')
+matcher(a,b,c,d,nil,nil,'.+\.')
 
 =begin
 Lesson 3: Matching specific characters
@@ -87,7 +87,7 @@ d =	'dan'	 #fail
 e =	'ran'	 #fail
 f =	'pan'    #fail
 
-matcher(a,b,c,d,e,f,'[cmf]..')
+matcher(a,b,c,d,e,f,'[cmf]an')
 
 =begin
 Lesson 4: Excluding specific characters
@@ -104,7 +104,7 @@ a =	'hog'
 b =	'dog'	
 c = 'bog'
 
-matcher(a,b,c,nil,nil,nil,'[^b]og') #or [hd]og
+matcher(a,b,c,nil,nil,nil,'[^b]og') 
 
 =begin
 Lesson 5: Character ranges
@@ -126,7 +126,7 @@ d = 'aax' #fail
 e = 'bby' #fail
 f = 'ccz' #fail
 
-matcher(a,b,c,d,e,f,'[A-C][n-p][a-c]')
+matcher(a,b,c,d,e,f,'[A-C]\w{2}')
 
 =begin
 Lesson 6: Catching some zzz's
@@ -147,7 +147,7 @@ a = 'wazzzzzup'
 b =	'wazzzup'	
 c =	'wazup'		#fail
 
-matcher(a,b,c,nil,nil,nil,'waz{2,6}up')
+matcher(a,b,c,nil,nil,nil,'waz{2,5}up')
 
 =begin
 Lesson 7: Mr. Kleene, Mr. Kleene
@@ -189,7 +189,7 @@ b =	'2 files found?'
 c = '24 files found?'	
 d = 'No files found.' #skip
 
-matcher(a,b,c,d,nil,nil,'\d+ files? found\?')
+matcher(a,b,c,d,nil,nil,'\d+.+\?')
 
 =begin
 Lesson 9: All this whitespace
@@ -202,9 +202,124 @@ In the strings below, you'll find that the content of each line is indented by s
 Exercise 9: Matching Whitespaces
 Task	Text
 =end
-a = '   abc'	
-b =	'    abc'	
-c = '       abc'
-d = 'abc'	
+a = '1.   abc'	
+b =	'2.    abc'	
+c = '3.       abc'
+d = '4.abc'			#skip
 
-matcher(a,b,c,d,nil,nil,'')
+matcher(a,b,c,d,nil,nil,'\s+\w+') 
+
+=begin
+Lesson 10: Starting and ending
+So far, we've been writing regular expressions that partially match pieces across all the text. Sometimes this isn't desirable, imagine for example we wanted to match the word "success" in a log file. We certainly don't want that pattern to match a line that says "Error: unsuccessful operation"! That is why it is often best practice to write as specific regular expressions as possible to ensure that we don't get false positives when matching against real world text.
+
+One way to tighten our patterns is to define a pattern that describes both the start and the end of the line using the special ^ (hat) and $ (dollar sign) metacharacters. In the example above, we can use the pattern ^success to match only a line that begins with the word "success", but not the line "Error: unsuccessful operation". And if you combine both the hat and the dollar sign, you create a pattern that matches the whole line completely at the beginning and end.
+
+Note that this is different than the hat used inside a set of bracket [^...] for excluding characters, which can be confusing when reading regular expressions.
+
+Try to match each of the strings below using these new special characters.
+
+Exercise 10: Matching Lines
+Task	Text
+=end	 
+a = 'Mission: successful'
+b = 'Last Mission: unsuccessful' #fail
+c = 'Next Mission: successful upon capture of target' #fail
+
+matcher(a,b,c,nil,nil,nil,'^Mission: successful$')
+
+=begin
+Lesson 11: Match groups
+Regular expressions allow us to not just match text but also to extract information for further processing. This is done by defining groups of characters and capturing them using the special parentheses ( and ) metacharacters. Any subpattern inside a pair of parentheses will be captured as a group. In practice, this can be used to extract information like phone numbers or emails from all sorts of data.
+
+Imagine for example that you had a command line tool to list all the image files you have in the cloud. You could then use a pattern such as ^(IMG\d+\.png)$ to capture and extract the full filename, but if you only wanted to capture the filename without the extension, you could use the pattern ^(IMG\d+)\.png$ which only captures the part before the period.
+
+Go ahead and try to use this to write a regular expression that matches only the filenames (not including extension) of the PDF files below.
+
+Exercise 11: Matching Groups
+Task	Text	Capture Groups
+=end	 
+a = 'file_record_transcript.pdf'	#file_record_transcript	
+b = 'file_07241999.pdf'				#file_07241999	
+c = 'testfile_fake.pdf.tmp' 		#skip
+
+matcher(a,b,c,nil,nil,nil,'(file\w+)\.pdf$')
+
+=begin
+Lesson 12: Nested groups
+When you are working with complex data, you can easily find yourself having to extract multiple layers of information, which can result in nested groups. Generally, the results of the captured groups are in the order in which they are defined (in order by open parenthesis).
+
+Take the example from the previous lesson, of capturing the filenames of all the image files you have in a list. If each of these image files had a sequential picture number in the filename, you could extract both the filename and the picture number using the same pattern by writing an expression like ^(IMG(\d+))\.png$ (using a nested parenthesis to capture the digits).
+
+The nested groups are read from left to right in the pattern, with the first capture group being the contents of the first parentheses group, etc.
+
+For the following strings, write an expression that matches and captures both the full date, as well as the year of the date.
+
+Exercise 12: Matching Nested Groups
+Task	Text	Capture Groups	 
+=end
+a = 'Jan 1987'	#Jan 1987  1987	
+b = 'May 1969'	#May 1969  1969	
+c = 'Aug 2011'	#Aug 2011  2011	
+
+matcher(a,b,c,nil,nil,nil,'(\w+(\s+))')
+
+=begin
+Lesson 13: More group work
+As you saw in the previous lessons, all the quantifiers including the star *, plus +, repetition {m,n} and the question mark ? can all be used within the capture group patterns. This is the only way to apply quantifiers on sequences of characters instead of the individual characters themselves.
+
+For example, if I knew that a phone number may or may not contain an area code, the right pattern would test for the existence of the whole group of digits (\d{3})? and not the individual characters themselves (which would be wrong).
+
+Depending on the regular expression engine you are using, you can also use non-capturing groups which will allow you to match the group but not have it show up in the results.
+
+Below are a couple different common display resolutions, try to capture the width and height of each display.
+
+Exercise 13: Matching Nested Groups
+Task	Text	Capture Groups	
+=end 
+a = '1280x720'	#1280 720	
+b = '1920x1600'	#1920 1600	
+c = '1024x768'	#1024 768
+
+matcher(a,b,c,nil,nil,nil,'^(\d{3,5})x(\d{3,5})$')
+
+=begin
+Lesson 14: It's all conditional
+As we mentioned before, it's always good to be precise, and that applies to coding, talking, and even regular expressions. For example, you wouldn't write a grocery list for someone to Buy more .* because you would have no idea what you could get back. Instead you would write Buy more milk or Buy more bread, and in regular expressions, we can actually define these conditionals explicitly.
+
+Specifically when using groups, you can use the | (logical OR, aka. the pipe) to denote different possible sets of characters. In the above example, I can write the pattern "Buy more (milk|bread|juice)" to match only the strings Buy more milk, Buy more bread, or Buy more juice.
+
+Like normal groups, you can use any sequence of characters or metacharacters in a condition, for example, ([cb]ats*|[dh]ogs?) would match either cats or bats, or, dogs or hogs. Writing patterns with many conditions can be hard to read, so you should consider making them separate patterns if they get too complex.
+
+Go ahead and try writing a conditional pattern that matches only the lines with small fuzzy creatures below.
+
+Exercise 14: Matching Conditional Text
+Task	Text	 
+=end
+a = 'I love cats'	
+b = 'I love dogs'	
+c = 'I love logs' #skip
+d = 'I love cogs' #skip
+
+matcher(a,b,c,d,nil,nil,'I love (cats|dogs)')
+
+=begin
+Lesson 15: Other special characters
+This lesson will cover some extra metacharacters, as well as the results of captured groups.
+
+We have already learned the most common metacharacters to capture digits using \d, whitespace using \s, and alphanumeric letters and digits using \w, but regular expressions also provides a way of specifying the opposite sets of each of these metacharacters by using their upper case letters. For example, \D represents any non-digit character, \S any non-whitespace character, and \W any non-alphanumeric character (such as punctuation). Depending on how you compose your regular expression, it may be easier to use one or the other.
+
+Additionally, there is a special metacharacter \b which matches the boundary between a word and a non-word character. It's most useful in capturing entire words (for example by using the pattern \w+\b).
+
+One concept that we will not explore in great detail in these lessons is back referencing, mostly because it varies depending on the implementation. However, many systems allow you to reference your captured groups by using \0 (usually the full matched text), \1 (group 1), \2 (group 2), etc. This is useful for example when you are in a text editor and doing a search and replace using regular expressions to swap two numbers, you can search for "(\d+)-(\d+)" and replace it with "\2-\1" to put the second captured number first, and the first captured number second for example.
+
+Below are a number of different strings, try out the different types of metacharacters or anything we've learned in the previous lessons and continue on when you are ready.
+
+Exercise 15: Matching Other Special Characters
+Task	Text	 
+=end
+a = 'The quick brown fox jumps over the lazy dog.'	
+b = 'There were 614 instances of students getting 90.0% or above.'
+c = 'The FCC had to censor the network for saying &$#*@!.'
+
+matcher(a,b,c,nil,nil,nil,'The(re)?')
