@@ -15,9 +15,8 @@ def caesar_cipher(string, shift_factor)
 	string.split("").each do |chr|
 		letter = chr.ord
 
-		#Uppercase
-		if (65..90) === (letter)
-
+		if (65..90) === (letter) #Uppercase
+			
 			#conditional to wrap z to a, else normal shifting.
 			if letter+shift_factor > 90
 				wrap_upper = (((letter+shift_factor)-90)+65).chr
@@ -26,8 +25,7 @@ def caesar_cipher(string, shift_factor)
 			else modified_string.push((letter+shift_factor).chr)
 			end
 
-		#Lowercase
-		elsif (97..122) === (letter)
+		elsif (97..122) === (letter) #Lowercase
 
 			if letter+shift_factor > 122
 				wrap_lower = (((letter+shift_factor)-122)+97).chr
@@ -37,7 +35,6 @@ def caesar_cipher(string, shift_factor)
 			end
 
 		else modified_string.push(chr)
-
 		end	
 
 	end
